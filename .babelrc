@@ -1,0 +1,17 @@
+{
+  "presets":[
+    ["env", {
+      "modules": false
+    }]
+  ],
+  "plugins": [
+    "external-helpers",
+    ["transform-runtime",{
+      "helpers": false,
+      "polyfill": false,
+      "regenerator": false,
+      "moduleName": "babel-runtime"
+    }],
+    "transform-object-assign"
+  ]  
+}
