@@ -1,58 +1,53 @@
 import Dttrace from './dttrace'
 import warning from './utils/warning'
-import isPlainObject from './utils/isPlainObject'
-export default function autoAppTrace(dttrace,options){
-  if(dttrace instanceof Dttrace){
-
-    if(isPlainObject(options)){
-      dttrace.launchRocket(2003,{
+let appEnterTime
+export default function autoAppTrace(module,dttrace){
+  if(typeof dttrace === 'string' || dttrace instanceof Dttrace){
+    let isFirst = true
+    const oldLaunchHandler = module.onLaunch
+    const oldShowHanler = module.onShow
+    const oldHideHanler= module.onHide
+    module.onLaunch = function(options){
+      const instance = typeof dttrace === 'string' ? this[dttrace] : dttrace
+      instance.launchRocket(2003,{
+        $launch_time: new Date().getTime(),
         $path: options.path,
         $query: options.query,
         $scene: options.scene,
         $share_ticket: options.shareTicket,
         $referrer_info: options.referrerInfo
       })
-    }else{
-      warning('Expected the third argument to be a plain object') 
+      typeof oldLaunchHandler === 'function' && oldLaunchHandler.apply(this,arguments)
     }
-
-    let isFirst = true
-    let appEnterTime
-    for(const attr in dttrace){
-      if(dttrace.hasOwnProperty(attr)){
-        if(attr.indexOf('on')>-1){
-          switch(attr){
-            case 'onShow':
-              const oldShow = this.onShow
-              this.onShow = function(){
-                if(!isFirst){
-                  appEnterTime = new Date().getTime()
-                  dttrace.launchRocket(2008,{
-                    $enter_time: appEnterTime
-                  })
-                }else{
-                  isFirst = false
-                }
-                oldShow.apply(this,arguments);
-              }
-              break
-            case 'onHide':
-              const oldHide = this.onHide
-              this.onHide = function(){
-                dttrace.launchRocket(2009,{
-                  $enter_time: appEnterTime,
-                  $leave_time: new Date().getTime()
-                })
-                oldHide.apply(this,arguments)
-              }
-              break
-            case 'onHide':  
-            default: 
-          }
-        }
+    module.onShow = function(options){
+      const instance = typeof dttrace === 'string' ? this[dttrace] : dttrace
+      appEnterTime = new Date().getTime()
+      if(!isFirst){
+        instance.launchRocket(2008,{
+          $enter_time: appEnterTime,
+          $path: options.path,
+          $query: options.query,
+          $scene: options.scene,
+          $share_ticket: options.shareTicket,
+          $referrer_info: options.referrerInfo
+        })
+      }else{
+        isFirst = false
       }
+      typeof oldShowHanler === 'function' && oldShowHanler.apply(this,arguments)
+    }
+    module.onHide = function(){
+      const instance = typeof dttrace === 'string' ? this[dttrace] : dttrace
+      const appLeaveTime = new Date().getTime()
+      instance.launchRocket(2009,{
+        $enter_time: appEnterTime,
+        $leave_time: appLeaveTime,
+        $stay_time: appLeaveTime - appEnterTime
+      })
+      typeof oldHideHanler === 'function' && oldHideHanler.apply(this,arguments)
     }
   }else{
-    warning('Expected the argument to be a Dttrace') 
+    warning('Expected the second argument to be a string or an instance of Dttrace') 
   }
+  return module
 }
