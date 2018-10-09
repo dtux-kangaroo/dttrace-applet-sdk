@@ -8,16 +8,19 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "build:unmin": "npm run clean && cross-env NODE_ENV=development rollup -c -o dist/dttrace-applet.js",
-    "build:min": "npm run clean && cross-env NODE_ENV=production rollup -c -o dist/dttrace-applet.min.js",
-    "build": "npm run clean && npm run build:commonjs && npm run build::commonjs:min",
-    "dev:native": "cross-env NODE_ENV=development rollup -c -o test/native/utils/dttrace-applet.js --watch",
-    "dev:mpvue": "cross-env NODE_ENV=development rollup -c -o test/mpvue/src/utils/dttrace-applet.js --watch",
-    "dev:wepy": "cross-env NODE_ENV=development rollup -c -o test/wepy/src/utils/dttrace-applet.js --watch"
+    "build:es:unmin": "cross-env FORMAT_ENV=es rollup -c -o dist/es/dttrace-applet.js",
+    "build:es:min": "cross-env FORMAT_ENV=es  COMPRESS_ENV=uglifyEs rollup -c -o dist/es/dttrace-applet.min.js",
+    "build:cjs:unmin": "cross-env FORMAT_ENV=cjs rollup -c -o dist/cjs/dttrace-applet.js",
+    "build:cjs:min": "cross-env FORMAT_ENV=cjs COMPRESS_ENV=uglify rollup -c -o dist/cjs/dttrace-applet.min.js",
+    "build": "npm run clean && npm run build:es:unmin && npm run build:es:min && npm run build:cjs:unmin && npm run build:cjs:min",
+    "dev:native": "cross-env FORMAT_ENV=cjs rollup -c -o test/native/utils/dttrace-applet.js --watch",
+    "dev:mpvue": "cross-env FORMAT_ENV=es rollup -c -o test/mpvue/src/utils/dttrace-applet.js --watch",
+    "dev:wepy": "cross-env FORMAT_ENV=es rollup -c -o test/wepy/src/utils/dttrace-applet.js --watch"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-catch-promise": "^0.1.2",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
@@ -25,6 +28,12 @@
     "rimraf": "^2.6.2",
     "rollup": "^0.66.2",
     "rollup-plugin-babel": "^3.0.7",
-    "rollup-plugin-uglify": "^4.0.0"
+    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-uglify": "^4.0.0",
+    "rollup-plugin-uglify-es": "^0.0.1"
+  },
+  "dependencies": {
+    "core-js": "^2.5.7"
   }
 }
