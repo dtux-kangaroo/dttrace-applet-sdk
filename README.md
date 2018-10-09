@@ -425,7 +425,7 @@ dttrace.launchRocket(2001,{
 ```
 
 ### params
-Dttrace实例上的全局采集参数
+Dttrace实例上的全局采集参数
 
 #### get
 获取全局采集数据
