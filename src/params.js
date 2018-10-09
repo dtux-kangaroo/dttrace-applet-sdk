@@ -12,24 +12,43 @@ const customParams = {}
 
 //获取系统信息
 function getSystemInfo(){
-  const {brand,model,pixelRatio,windowWidth,windowHeight,system,language,version} = wx.getSystemInfoSync()
+  const {
+    brand,model,
+    pixelRatio,
+    screenWidth,
+    screenHeight,
+    windowWidth,
+    windowHeight,
+    statusBarHeight,
+    system,language,
+    version,
+    platform,
+    fontSizeSetting,
+    SDKVersion,
+    benchmarkLevel
+  } = wx.getSystemInfoSync()
   return {
     $device_model:model,
     $brand:brand,
-    $resolution:pixelRatio,
-    $screen_width:windowWidth,
-    $screen_height:windowHeight,
+    $pixel_ratio:pixelRatio,
+    $screen_width:screenWidth,
+    $screen_height:screenHeight,
+    $window_width:windowWidth,
+    $window_height:windowHeight,
+    $status_bar_height:statusBarHeight,
     $os:system.split(' ')[0],
     $os_version:system.split(' ')[1],
     $language:language,
-    $wx_version:version
+    $wx_version:version,
+    $platform:platform,
+    $font_size_setting:fontSizeSetting,
+    $wx_sdk_version:SDKVersion,
+    $bench_mark_level:benchmarkLevel
   }
 }
 
 const get = (name)=>{
-  const currentParams = Object.assign({},defaultParams,getSystemInfo(),{
-    $user_id:options.get('getUserId')()
-  },customParams);
+  const currentParams = Object.assign({},defaultParams,getSystemInfo(),customParams);
   if(name) {
     return currentParams[name]
   }else{

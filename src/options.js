@@ -1,14 +1,12 @@
 import warning from './utils/warning'
+import isPlainObject from './utils/isPlainObject'
 
 const options = {
   appKey:'',
-  server:'http://172.16.10.89:7001/',
-  getUserId(){
-    return ''
-  },
-  getOpenId(){
-    return ''
-  }
+  server:'https://log.dtstack.net:7001',
+  code2SessionUrl:'https://api.weixin.qq.com/sns/jscode2session',
+  appletId:'',
+  appletSecret:''
 }
 
 const get = (name)=>{
@@ -19,15 +17,11 @@ const get = (name)=>{
   }
 }
 
-const set = (name,value)=>{
-  if(!name){
-    warning("Expected the first argument to be a string")
-  }else if(!value&&value!==0){
-    warning("Expected the second argument to not be null or undefined or null character string")
+const set = (newOption)=>{
+  if(isPlainObject(newOption)){
+    return Object.assign(options,newOption)
   }else{
-    return Object.assign(options,{
-      [name]:value
-    })
+    warning("Expected the argument to be a plain object")
   }
 }
 export default {

@@ -1,4 +1,3 @@
-import warning from './warning';
 function http(method,url,data){
   return new Promise ((resolve,reject)=>{
     wx.request({
