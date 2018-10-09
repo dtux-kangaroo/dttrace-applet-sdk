@@ -3,9 +3,9 @@
 ## 1. 集成
 ### 1.1 原生
 
-1.下载符合CommonJS规范的dttrace-applet-sdk到本地的项目里的utils文件下（可根据项目情况选择压缩版或未压缩版）
+1.下载符合CommonJS规范的dttrace-applet-sdk到本地的项目里的utils文件下（可根据项目情况选择压缩版或未压缩版）
 
-2.在app.js中导入dttrace-applet-sdk并初始化
+2.在app.js中导入dttrace-applet-sdk并初始化
 ```
 //app.js
 const {Dttrace} = require('./utils/dttrace-applet')
@@ -17,7 +17,7 @@ App({
     userInfo: null
   },
   dttrace:new Dttrace({
-    appKey: <在DT.Trace上申请的小程序appKey>,
+    appKey: <在DT.Trace上申请的小程序appKey>,
     appletId: <微信小程序的AppID>,
     appletSecret:<微信小程序的AppSecret>
   })
@@ -25,7 +25,7 @@ App({
 ```
 
 ### 1.2 mpvue
-1.下载符合ES6 Modules规范的dttrace-applet-sdk到本地的项目里的utils文件下（可根据项目情况选择压缩版或未压缩版）
+1.下载符合ES6 Modules规范的dttrace-applet-sdk到本地的项目里的utils文件下（可根据项目情况选择压缩版或未压缩版）
 
 2.在src/main.js中导入dttrace-applet-sdk并初始化
 ```
@@ -38,7 +38,7 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 
 Vue.prototype.dttrace = new Dttrace({
-  appKey: <在DT.Trace上申请的小程序appKey>,
+  appKey: <在DT.Trace上申请的小程序appKey>,
   appletId: <微信小程序的AppID>,
   appletSecret:<微信小程序的AppSecret>
 })
@@ -48,7 +48,7 @@ const app = new Vue(App)
 app.$mount()
 ```
 ### 1.3 wepy
-1.下载符合ES6 Modules规范的dttrace-applet-sdk到本地的项目里的utils文件下（可根据项目情况选择压缩版或未压缩版）
+1.下载符合ES6 Modules规范的dttrace-applet-sdk到本地的项目里的utils文件下（可根据项目情况选择压缩版或未压缩版）
 
 2.在src/app.wpy中导入dttrace-applet-sdk并初始化
 ```
@@ -60,7 +60,7 @@ app.$mount()
 import wepy from 'wepy'
 import {Dttrace} from './utils/dttrace-applet.js'
 wepy.app.prototype.dttrace=wepy.page.prototype.dttrace=new Dttrace({
-  appKey: <在DT.Trace上申请的小程序appKey>,
+  appKey: <在DT.Trace上申请的小程序appKey>,
   appletId: <微信小程序的AppID>,
   appletSecret:<微信小程序的AppSecret>
 })
@@ -78,7 +78,7 @@ export default class extends wepy.app {
 }
 </script>
 ```
-## 2 使用
+## 2 使用
 使用launchRocket方法即可进行埋点操作，launchRocket接收以下两个参数：
 - eventId 事件ID，与DT.Trace上定义的事件ID相对应。类型：Number
 - otherParams 额外的采集数据。类型：Object
@@ -153,8 +153,8 @@ export default class Index extends wepy.page {
 | 名称 | 类型 | 说明 |
 | ------ | ------ | ------ |
 | $DTTID | String | DT.Trace生成的设备唯一表示 |
-| $open_id | String | 对应小程序的openid，用户唯一标识 |
-| $union_id | String | 对应小程序的unionid，用户在开放平台的唯一标识符 |
+| $open_id | String | 对应小程序的openid，用户唯一标识 |
+| $union_id | String | 对应小程序的unionid，用户在开放平台的唯一标识符 |
 | $device_model | String | 手机型号 |
 | $brand | String | 手机品牌	 |
 | $pixel_ratio | Number | 设备像素比 |
@@ -173,7 +173,7 @@ export default class Index extends wepy.page {
 | $bench_mark_level | Number | (仅Android小游戏) 性能等级，-2 或 0：该设备无法运行小游戏，-1：性能未知，>=1 设备性能值，该值越高，设备性能越好 (目前设备最高不到50) |
 | $event_id | Number | 事件ID，与DT.Trace上定义的事件ID相对应 |
 | $network_type | String | 网络类型 |
-| $token | String | 用于采集数据上传的校验码 |
+| $token | String | 用于采集数据上传的校验码 |
 | $timestamp | Number | 每次采集数据上传到服务器的时间戳 |
 
 **注：预置采集参数均”$“开头，自定义采集参数请不要以”$“开头，以免混淆。**
@@ -183,13 +183,15 @@ export default class Index extends wepy.page {
 dttrace-applet-sdk提供名自动化埋点功能，可根据实际情况需要去选择是否集成自动化埋点。
 
 **App**
+
 | 事件名称 | 描述 | 触发时机 |
 | ------ | ------ | ------ |
 | App.onLaunch | 生命周期回调—监听小程序初始化 | 小程序初始化完成时（全局只触发一次）|
 | App.onShow | 生命周期回调—监听小程序显示 | 小程序启动，或从后台进入前台显示时。但是dttrace-applet-sdk会忽略小程序启动这一次|
 | App.onHide | 生命周期回调—监听小程序隐藏 | 小程序从前台进入后台时 | 
 
-**App.onLaunch预置采集数据**
+**App.onLaunch预置采集数据**
+
 | 名称 | 类型 | 说明 |
 | ------ | ------ | ------ |
 | $launch_time | Number | 小程序初始化完成时间戳
@@ -200,6 +202,7 @@ dttrace-applet-sdk提供名自动化埋点功能，可根据实际情况需要�
 | $referrer_info | Object | 当场景为由从另一个小程序或公众号或App打开时，返回的信息 |
 
 **App.onShow预置采集数据**
+
 | 名称 | 类型 | 说明 |
 | ------ | ------ | ------ |
 | $enter_time | Number | 从后台进入前台的时间戳 |
@@ -210,32 +213,36 @@ dttrace-applet-sdk提供名自动化埋点功能，可根据实际情况需要�
 | $referrer_info | Object | 当场景为由从另一个小程序或公众号或App打开时，返回的信息 |
 
 **App.onHide预置采集数据**
+
 | 名称 | 类型 | 说明 |
 | ------ | ------ | ------ |
-| $enter_time | Number | 小程序启动或者从后台进入前台的时间戳 |
+| $enter_time | Number | 小程序启动或者从后台进入前台的时间戳 |
 | $leave_time | Number | 小程序从前台进入后台的时间戳 |
-| $stay_time | Number | 小程序停留时长，单位：ms（毫秒） |
+| $stay_time | Number | 小程序停留时长，单位：ms（毫秒） |
 
 **Page**
+
 | 事件名称 | 描述 |
 | ------ | ------ | 
 | Page.onShow | 生命周期回调—监听页面显示 |
 | Page.onHide | 生命周期回调—监听页面隐藏 |
 
 **Page.onShow预置采集数据**
+
 | 名称 | 类型 | 说明 |
 | ------ | ------ | ------ |
-| $query | Object | 打开当前页面路径中的参数 |
+| $query | Object | 打开当前页面路径中的参数 |
 | $url_path | String | 页面路径 |
-| $referrer | String | 前向页面地址 |
-| $enter_time | Number | 页面显示的时间戳 |
+| $referrer | String | 前向页面地址 |
+| $enter_time | Number | 页面显示的时间戳 |
 
 **Page.onHide预置采集数据**
+
 | 名称 | 类型 | 说明 |
 | ------ | ------ | ------ |
-| $enter_time | Number | 页面显示的时间戳 |
-| $leave_time | Number | 页面隐藏的时间戳 |
-| $stay_time | Number | 页面停留时长，单位：ms（毫秒） |
+| $enter_time | Number | 页面显示的时间戳 |
+| $leave_time | Number | 页面隐藏的时间戳 |
+| $stay_time | Number | 页面停留时长，单位：ms（毫秒） |
 ### 4.1 原生
 **app.js**
 ```
@@ -248,7 +255,7 @@ App(autoAppTrace({
     userInfo: null
   },
   dttrace:new Dttrace({
-    appKey: <在DT.Trace上申请的小程序appKey>,
+    appKey: <在DT.Trace上申请的小程序appKey>,
     appletId: <微信小程序的AppID>,
     appletSecret:<微信小程序的AppSecret>
   })
@@ -342,7 +349,7 @@ import wepy from 'wepy'
 import {Dttrace,AutoAppTrace} from './utils/dttrace-applet.js'
 
 wepy.app.prototype.dttrace=wepy.page.prototype.dttrace=new Dttrace({
-  appKey: <在DT.Trace上申请的小程序appKey>,
+  appKey: <在DT.Trace上申请的小程序appKey>,
   appletId: <微信小程序的AppID>,
   appletSecret:<微信小程序的AppSecret>
 })
@@ -379,18 +386,18 @@ export default class Index extends wepy.page {
 ```
 ## 5 API说明
 ### new Dttrace
-初始化Dttrace实例
+初始化Dttrace实例
 
 | 参数 | 类型 | 是否必填 |说明 |
 | ------ | ------ | ------ | ------ |
-| appKey | String | 是 | 在DT.Trace上申请的小程序appKey |
+| appKey | String | 是 | 在DT.Trace上申请的小程序appKey |
 | appletId | String | 是 | 微信小程序的AppID |
-| appletSecret | String | 是 | 微信小程序的AppSecret |
+| appletSecret | String | 是 | 微信小程序的AppSecret |
 
 **示例：**
 ```
 const dttrace = new Dttrace({
-  appKey: <在DT.Trace上申请的小程序appKey>,
+  appKey: <在DT.Trace上申请的小程序appKey>,
   appletId: <微信小程序的AppID>,
   appletSecret:<微信小程序的AppSecret>
 })
@@ -407,7 +414,7 @@ const dttrace = new Dttrace({
 **示例：**
 ```
 const dttrace = new Dttrace({
-  appKey: <在DT.Trace上申请的小程序appKey>,
+  appKey: <在DT.Trace上申请的小程序appKey>,
   appletId: <微信小程序的AppID>,
   appletSecret:<微信小程序的AppSecret>
 })
@@ -429,7 +436,7 @@ Dttrace实例上的全局采集参数
 **示例：**
 ```
 const dttrace = new Dttrace({
-  appKey: <在DT.Trace上申请的小程序appKey>,
+  appKey: <在DT.Trace上申请的小程序appKey>,
   appletId: <微信小程序的AppID>,
   appletSecret:<微信小程序的AppSecret>
 })
@@ -443,11 +450,11 @@ console.log(dttrace.params.get('message')) //全局采集数据中参数名为n
 
 | 参数 | 类型 | 是否必填 |说明 |
 | ------ | ------ | ------ | ------ |
-| customParams | Object | 是 | 用户自定义的全局采集参数 |
+| customParams | Object | 是 | 用户自定义的全局采集参数 |
 **示例：**
 ```
 const dttrace = new Dttrace({
-  appKey: <在DT.Trace上申请的小程序appKey>,
+  appKey: <在DT.Trace上申请的小程序appKey>,
   appletId: <微信小程序的AppID>,
   appletSecret:<微信小程序的AppSecret>
 })
